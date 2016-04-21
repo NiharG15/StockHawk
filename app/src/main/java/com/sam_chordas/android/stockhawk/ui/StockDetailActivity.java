@@ -1,9 +1,11 @@
 package com.sam_chordas.android.stockhawk.ui;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
@@ -25,6 +27,8 @@ import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -63,6 +67,11 @@ public class StockDetailActivity extends AppCompatActivity {
             stockSymbol = "YHOO";
         }
 
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (!(cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnectedOrConnecting())) {
+            Snackbar.make(findViewById(R.id.detail_parent), R.string.offline_mode, Snackbar.LENGTH_INDEFINITE).show();
+        }
+
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
@@ -77,7 +86,7 @@ public class StockDetailActivity extends AppCompatActivity {
                 .client(httpClient)
                 .build();
 
-        HistoricalDataService dataService = retrofit.create(HistoricalDataService.class);
+        final HistoricalDataService dataService = retrofit.create(HistoricalDataService.class);
 
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
@@ -113,14 +122,25 @@ public class StockDetailActivity extends AppCompatActivity {
 
                     }
 
+                    Collections.sort(entryList, new Comparator<BarEntry>() {
+                        @Override
+                        public int compare(BarEntry barEntry, BarEntry t1) {
+                            return barEntry.getXIndex() - t1.getXIndex();
+                        }
+                    });
+
                     BarDataSet lineDataSet = new BarDataSet(entryList, "Stock Data");
-                    lineDataSet.setColor(ContextCompat.getColor(StockDetailActivity.this, R.color.material_blue_500));
+                    lineDataSet.setColor(Color.WHITE);
                     lineDataSet.setValueTextColor(Color.WHITE);
+                    lineChart.getXAxis().setGridColor(Color.WHITE);
+                    lineChart.getAxisLeft().setGridColor(Color.WHITE);
                     lineChart.getXAxis().setTextColor(Color.WHITE);
                     lineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
                     lineChart.getAxisLeft().setTextColor(Color.WHITE);
                     lineChart.getAxisRight().setTextColor(Color.WHITE);
                     lineChart.setData(new BarData(xVals, lineDataSet));
+                    lineChart.getLegend().setTextColor(Color.WHITE);
+                    lineChart.setDescription("");
                     lineChart.invalidate();
                 }
 
