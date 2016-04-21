@@ -94,7 +94,12 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                             String symbol = (String) ((TextView) sym).getText();
                             Intent intent = new Intent(MyStocksActivity.this, StockDetailActivity.class);
                             intent.putExtra(StockDetailActivity.ARG_STOCK_SYMBOL, symbol);
+/*                            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                ActivityOptionsCompat aoc =  ActivityOptionsCompat.makeSceneTransitionAnimation(MyStocksActivity.this, v, "list_item");
+                                ActivityCompat.startActivity(MyStocksActivity.this, intent, aoc.toBundle());
+                            } else {*/
                             startActivity(intent);
+/*                            }*/
                         }
                     }
                 }));

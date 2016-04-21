@@ -134,6 +134,7 @@ public class StockDetailActivity extends AppCompatActivity {
                     lineDataSet.setValueTextColor(Color.WHITE);
                     lineChart.getXAxis().setGridColor(Color.WHITE);
                     lineChart.getAxisLeft().setGridColor(Color.WHITE);
+                    lineChart.getAxisRight().setGridColor(Color.WHITE);
                     lineChart.getXAxis().setTextColor(Color.WHITE);
                     lineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
                     lineChart.getAxisLeft().setTextColor(Color.WHITE);
@@ -156,11 +157,13 @@ public class StockDetailActivity extends AppCompatActivity {
         String name = "";
         String percentChange = "";
         String bid = "";
+        int isUp = 0;
         Cursor c = getContentResolver().query(QuoteProvider.Quotes.CONTENT_URI, null, QuoteColumns.SYMBOL + "=?", new String[]{stockSymbol}, null);
         if (c != null && c.moveToFirst()) {
             name = c.getString(c.getColumnIndex(QuoteColumns.NAME));
             bid = c.getString(c.getColumnIndex(QuoteColumns.BIDPRICE));
             percentChange = c.getString(c.getColumnIndex(QuoteColumns.PERCENT_CHANGE));
+            isUp = c.getInt(c.getColumnIndex(QuoteColumns.ISUP));
         }
 
         if (c != null) {
@@ -171,6 +174,12 @@ public class StockDetailActivity extends AppCompatActivity {
         tvstockSymbol.setText(stockSymbol);
         change.setText(percentChange);
         bidPrice.setText(bid);
+
+        if (isUp == 1) {
+            change.setBackgroundResource(R.drawable.percent_change_pill_green);
+        } else {
+            change.setBackgroundResource(R.drawable.percent_change_pill_red);
+        }
 
     }
 }
