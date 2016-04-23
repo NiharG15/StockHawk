@@ -158,7 +158,7 @@ public class StockDetailActivity extends AppCompatActivity {
         String percentChange = "";
         String bid = "";
         int isUp = 0;
-        Cursor c = getContentResolver().query(QuoteProvider.Quotes.CONTENT_URI, null, QuoteColumns.SYMBOL + "=?", new String[]{stockSymbol}, null);
+        Cursor c = getContentResolver().query(QuoteProvider.Quotes.CONTENT_URI, null, QuoteColumns.SYMBOL + "=?" + " AND " + QuoteColumns.ISCURRENT + "=?", new String[]{stockSymbol, "1"}, null);
         if (c != null && c.moveToFirst()) {
             name = c.getString(c.getColumnIndex(QuoteColumns.NAME));
             bid = c.getString(c.getColumnIndex(QuoteColumns.BIDPRICE));
