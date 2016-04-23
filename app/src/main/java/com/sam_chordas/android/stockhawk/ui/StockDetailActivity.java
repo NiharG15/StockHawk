@@ -10,11 +10,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.sam_chordas.android.stockhawk.R;
 import com.sam_chordas.android.stockhawk.data.QuoteColumns;
 import com.sam_chordas.android.stockhawk.data.QuoteProvider;
@@ -48,7 +49,7 @@ public class StockDetailActivity extends AppCompatActivity {
     @Bind(R.id.stock_symbol)
     TextView tvstockSymbol;
     @Bind(R.id.lineChart)
-    BarChart lineChart;
+    LineChart lineChart;
     @Bind(R.id.stock_name)
     TextView stockName;
     @Bind(R.id.change)
@@ -81,7 +82,7 @@ public class StockDetailActivity extends AppCompatActivity {
 
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://query.yahooapis.com/v1/public/")
+                .baseUrl(getString(R.string.historical_data_base_url))
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient)
                 .build();
@@ -112,7 +113,7 @@ public class StockDetailActivity extends AppCompatActivity {
                     List<Quote> quoteList = qr.getQuery().getResults().getQuote();
 
                     /** The Chart **/
-                    ArrayList<BarEntry> entryList = new ArrayList<BarEntry>();
+                    ArrayList<Entry> entryList = new ArrayList<>();
                     ArrayList<String> xVals = new ArrayList<String>();
 
                     for (int i = quoteList.size() - 1; i >= 0; i--) {
@@ -122,16 +123,17 @@ public class StockDetailActivity extends AppCompatActivity {
 
                     }
 
-                    Collections.sort(entryList, new Comparator<BarEntry>() {
+                    Collections.sort(entryList, new Comparator<Entry>() {
                         @Override
-                        public int compare(BarEntry barEntry, BarEntry t1) {
+                        public int compare(Entry barEntry, Entry t1) {
                             return barEntry.getXIndex() - t1.getXIndex();
                         }
                     });
 
-                    BarDataSet lineDataSet = new BarDataSet(entryList, "Stock Data");
+                    LineDataSet lineDataSet = new LineDataSet(entryList, getString(R.string.chart_legend_stock_data));
                     lineDataSet.setColor(Color.WHITE);
                     lineDataSet.setValueTextColor(Color.WHITE);
+                    lineDataSet.setCircleColor(Color.WHITE);
                     lineChart.getXAxis().setGridColor(Color.WHITE);
                     lineChart.getAxisLeft().setGridColor(Color.WHITE);
                     lineChart.getAxisRight().setGridColor(Color.WHITE);
@@ -139,7 +141,7 @@ public class StockDetailActivity extends AppCompatActivity {
                     lineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
                     lineChart.getAxisLeft().setTextColor(Color.WHITE);
                     lineChart.getAxisRight().setTextColor(Color.WHITE);
-                    lineChart.setData(new BarData(xVals, lineDataSet));
+                    lineChart.setData(new LineData(xVals, lineDataSet));
                     lineChart.getLegend().setTextColor(Color.WHITE);
                     lineChart.setDescription("");
                     lineChart.invalidate();
@@ -171,6 +173,7 @@ public class StockDetailActivity extends AppCompatActivity {
         }
 
         stockName.setText(name);
+        stockName.setSelected(true);
         tvstockSymbol.setText(stockSymbol);
         change.setText(percentChange);
         bidPrice.setText(bid);

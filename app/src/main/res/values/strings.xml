@@ -18,4 +18,6 @@
     <string name="fab_add_stock">Add a stock</string>
     <string name="stock_already_saved">This stock is already saved!</string>
     <string name="font_name_roboto" translatable="false">fonts/Roboto-Light.ttf</string>
+    <string name="chart_legend_stock_data">Stock Data</string>
+    <string name="historical_data_base_url" translatable="false">https://query.yahooapis.com/v1/public/</string>
 </resources>

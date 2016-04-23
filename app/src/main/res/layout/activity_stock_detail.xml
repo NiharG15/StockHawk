@@ -15,6 +15,13 @@
         android:id="@+id/stock_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:ellipsize="marquee"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:maxLines="1"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
         android:textSize="22sp"
         tools:text="Google Inc." />
 
@@ -57,7 +64,7 @@
         android:layout_marginTop="16dp"
         card_view:cardBackgroundColor="@color/material_blue_700">
 
-        <com.github.mikephil.charting.charts.BarChart
+        <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/lineChart"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
