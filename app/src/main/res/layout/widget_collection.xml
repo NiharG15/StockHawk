@@ -1,24 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
-              android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+    android:background="@color/cardview_dark_background"
+    android:orientation="vertical"
     android:padding="@dimen/widget_margin">
 
     <FrameLayout
         android:id="@+id/widget"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="?android:attr/listPreferredItemHeightSmall"
-        android:background="@color/material_blue_500">
+        android:background="@color/material_blue_500"
+        android:minHeight="?android:attr/listPreferredItemHeightSmall">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="@string/widget_title"
-            android:textSize="@dimen/md_title_textsize"
-            android:layout_gravity="center"/>
+            android:textColor="#fff"
+            android:textSize="@dimen/md_title_textsize" />
     </FrameLayout>
     <FrameLayout
         android:layout_width="match_parent"
@@ -28,6 +30,8 @@
             android:id="@+id/widget_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:divider="@null"
             android:dividerHeight="0dp"
             tools:listitem="@layout/widget_collection_item"/>
