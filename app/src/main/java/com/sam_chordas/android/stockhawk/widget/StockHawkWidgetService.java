@@ -3,7 +3,6 @@ package com.sam_chordas.android.stockhawk.widget;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -56,10 +55,7 @@ class StockHawkRemoteViewsFactory implements RemoteViewsService.RemoteViewsFacto
 
     @Override
     public RemoteViews getViewAt(int i) {
-
-        Log.d(this.toString(), "getViewAt " + String.valueOf(i));
         c.moveToPosition(i);
-
         String symbol = c.getString(c.getColumnIndex(QuoteColumns.SYMBOL));
         String perChange = c.getString(c.getColumnIndex(QuoteColumns.PERCENT_CHANGE));
         RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.widget_collection_item);
