@@ -7,10 +7,12 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
@@ -44,6 +46,7 @@ import com.sam_chordas.android.stockhawk.touch_helper.SimpleItemTouchHelperCallb
 public class MyStocksActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 
     public static final String ACTION_NOT_FOUND = "not_found";
+    public static final String FIRST_START = "FIRST_START";
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -72,6 +75,8 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         isConnected = activeNetwork != null &&
                 activeNetwork.isConnectedOrConnecting();
         setContentView(R.layout.activity_my_stocks);
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean firstStart = sp.getBoolean(FIRST_START, true);
         // The intent service is for executing immediate pulls from the Yahoo API
         // GCMTaskService can only schedule tasks, they cannot execute immediately
         mServiceIntent = new Intent(this, StockIntentService.class);
@@ -82,6 +87,11 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                 startService(mServiceIntent);
             } else {
                 networkToast();
+
+                if (firstStart) {
+                    findViewById(R.id.emptyView).setVisibility(View.VISIBLE);
+                    sp.edit().putBoolean(FIRST_START, false).apply();
+                }
             }
         }
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
