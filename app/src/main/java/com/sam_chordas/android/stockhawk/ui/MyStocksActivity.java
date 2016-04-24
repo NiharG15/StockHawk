@@ -77,6 +77,9 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         setContentView(R.layout.activity_my_stocks);
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         boolean firstStart = sp.getBoolean(FIRST_START, true);
+        if (firstStart) {
+            sp.edit().putBoolean(FIRST_START, false).apply();
+        }
         // The intent service is for executing immediate pulls from the Yahoo API
         // GCMTaskService can only schedule tasks, they cannot execute immediately
         mServiceIntent = new Intent(this, StockIntentService.class);
@@ -90,7 +93,6 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
 
                 if (firstStart) {
                     findViewById(R.id.emptyView).setVisibility(View.VISIBLE);
-                    sp.edit().putBoolean(FIRST_START, false).apply();
                 }
             }
         }
