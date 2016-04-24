@@ -93,7 +93,6 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                 new RecyclerViewItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View v, int position) {
-                        //TODO:
                         // do something on item click
                         if (v.findViewById(R.id.stock_symbol) != null) {
                             View sym = v.findViewById(R.id.stock_symbol);
