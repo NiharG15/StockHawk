@@ -64,7 +64,8 @@
         android:layout_height="match_parent"
         android:layout_below="@id/stock_symbol"
         android:layout_marginTop="16dp"
-        card_view:cardBackgroundColor="@color/material_blue_700">
+        card_view:cardBackgroundColor="@color/material_blue_500"
+        card_view:cardCornerRadius="2dp">
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/lineChart"
