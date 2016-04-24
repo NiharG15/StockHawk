@@ -101,13 +101,10 @@ public class StockDetailActivity extends AppCompatActivity {
 
             String query = URLEncoder.encode("select * from yahoo.finance.historicaldata where symbol = \"" + stockSymbol + "\" and startDate = \"" + dateEnd + "\" and endDate = \"" + dateStart + "\"", "UTF-8");
             Log.d("Query: ", query);
-            String path = "https://query.yahooapis.com/v1/public/yql?format=json&env=http%3A%2F%2Fdatatables.org%2Falltables.env" + "&q=" + query;
-            Log.d("Path: ", path);
             Call<QueryResult> call = dataService.getHistoricalData(query, "json", "http%3A%2F%2Fdatatables.org%2Falltables.env");
             call.enqueue(new Callback<QueryResult>() {
                 @Override
                 public void onResponse(Call<QueryResult> call, Response<QueryResult> response) {
-                    Log.d("Result Code:", String.valueOf(response.code()));
                     QueryResult qr = response.body();
 
                     List<Quote> quoteList = qr.getQuery().getResults().getQuote();

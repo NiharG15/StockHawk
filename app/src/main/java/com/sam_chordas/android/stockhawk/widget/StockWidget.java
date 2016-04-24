@@ -6,7 +6,6 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.sam_chordas.android.stockhawk.R;
@@ -25,7 +24,6 @@ public class StockWidget extends AppWidgetProvider {
         i.setData(Uri.parse(i.toUri(Intent.URI_INTENT_SCHEME)));
         // Construct the RemoteViews object
         RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.widget_collection);
-        Log.d("Widget on Update Called", String.valueOf(appWidgetId));
         rv.setRemoteAdapter(R.id.widget_list, i);
         //rv.setEmptyView(R.id.widget_list, R.id.appwidget_empty);
         Intent startAct = new Intent(context, StockDetailActivity.class);
