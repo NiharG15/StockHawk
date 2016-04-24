@@ -179,7 +179,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                Snackbar.make(recyclerView, R.string.string_stock_not_found, Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(R.id.mystock_parent), R.string.string_stock_not_found, Snackbar.LENGTH_SHORT).show();
             }
         };
 
@@ -225,7 +225,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        
+
         if (id == R.id.action_change_units) {
             // this is for changing stock changes from percent value to dollar value
             Utils.showPercent = !Utils.showPercent;
