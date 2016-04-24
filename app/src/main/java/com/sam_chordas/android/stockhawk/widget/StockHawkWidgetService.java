@@ -38,7 +38,8 @@ class StockHawkRemoteViewsFactory implements RemoteViewsService.RemoteViewsFacto
 
     @Override
     public void onDataSetChanged() {
-
+        c.close();
+        c = mContext.getContentResolver().query(QuoteProvider.Quotes.CONTENT_URI, null, QuoteColumns.ISCURRENT + "=?", new String[]{"1"}, null);
     }
 
     @Override
