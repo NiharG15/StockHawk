@@ -54,6 +54,8 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/stock_symbol"
         android:layout_toLeftOf="@id/change"
+        android:layout_toStartOf="@id/change"
+        android:paddingEnd="10sp"
         android:paddingRight="10sp"
         tools:text="1000.00" />
 
